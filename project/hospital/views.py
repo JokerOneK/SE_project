@@ -10,8 +10,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # Create your views here.
 
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()

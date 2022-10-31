@@ -32,6 +32,9 @@ class Doctor(models.Model):
     rating = models.PositiveIntegerField()
     homepage_url = models.CharField(max_length=200, null=True)
 
+    def __str__(self):
+        return f"{self.name}, {self.surname}"
+
 
 class Patient(models.Model):
     date_of_birth = models.DateField()
@@ -48,5 +51,7 @@ class Patient(models.Model):
     contact_details = models.CharField(max_length=200)
     is_married = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.name}, {self.surname}"
 
 # Create your models here.
