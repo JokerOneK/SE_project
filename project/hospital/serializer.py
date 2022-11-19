@@ -14,18 +14,40 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token['username'] = user.username
         token['email'] = user.email
-        doctor_users = Doctor.objects.filter(user=user)
-        if len(doctor_users) > 0:
-            token['role'] = 'doctor'
-        patients_users = Patient.objects.filter(user=user)
-        if len(patients_users) > 0:
-            token['role'] = 'patient'
-
-        if len(doctor_users) == 0 and len(patients_users) == 0:
-            token['role'] = 'not_found'
+        # doctor_users = Doctor.objects.filter(user=user)
+        # if len(doctor_users) > 0:
+        #     token['role'] = 'doctor'
+        # patients_users = Patient.objects.filter(user=user)
+        # if len(patients_users) > 0:
+        #     token['role'] = 'patient'
+        #
+        # if len(doctor_users) == 0 and len(patients_users) == 0:
+        #     token['role'] = 'not_found'
 
         return token
 
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data["refresh"] = str(refresh)   # comment out if you don't want this
+        data["access"] = str(refresh.access_token)
+        data["email"] = self.user.email
+        data['username'] = self.user.username
+
+        doctor_users = Doctor.objects.filter(user=self.user)
+        if len(doctor_users) > 0:
+            data['role'] = 'doctor'
+        patients_users = Patient.objects.filter(user=self.user)
+        if len(patients_users) > 0:
+            data['role'] = 'patient'
+
+        if self.user.is_superuser:
+            data['role'] = 'admin'
+
+        if len(doctor_users) == 0 and len(patients_users) == 0 and not self.user.is_superuser:
+            data['role'] = 'not_found'
+
+        return data
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
