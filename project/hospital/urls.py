@@ -11,5 +11,6 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('', views.getRoutes),
     path('appointments/', views.appointments_list),
-    # path('appointments/<int:pk>/', views.snippet_detail),
+    path('appointments/<int:pk>/', views.appointment_detail),
+    path('departments/', views.department_list),
 ]

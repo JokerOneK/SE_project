@@ -12,6 +12,12 @@ default = [('Cardiologist','Cardiologist'),
 default_categories = [('Highest', 'Highest'), ('First', 'First'), ('Second', 'Second')]
 default_degree = [('PhD', 'PhD'), ('MD', 'MD'), ('Bachelor', 'Bachelor')]
 
+class Department(models.Model):
+    name = models.CharField(max_length=50, choices=default, default='Dermatologists')
+
+    def __str__(self):
+        return self.name
+
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -20,7 +26,7 @@ class Doctor(models.Model):
     middle_name = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=13)
-    department = models.CharField(max_length=50, choices=default, default='Dermatologists')
+    department = models.ForeignKey('Department', on_delete=models.CASCADE)
     date_of_birth = models.DateField()
     iin = models.CharField(max_length=12)
     experience = models.IntegerField()

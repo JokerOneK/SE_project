@@ -1,14 +1,17 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from hospital.serializer import MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import *
-from .serializers import AppointmentSerializer
+from .serializers import AppointmentSerializer, DepartmentSerializer
+
 
 # Create your views here.
 
@@ -58,4 +61,42 @@ def appointments_list(request):
     if request.method == 'GET':
         appointments = Appointment.objects.all()
         serializer = AppointmentSerializer(appointments, many=True)
+        return Response(serializer.data)
+
+
+@csrf_exempt
+def appointment_detail(request, pk):
+    """
+    Retrieve, update or delete a code snippet.
+    """
+    try:
+        snippet = Appointment.objects.get(pk=pk)
+    except Appointment.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = AppointmentSerializer(snippet)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = AppointmentSerializer(snippet, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        snippet.delete()
+        return HttpResponse(status=204)
+
+
+@api_view(['GET'])
+def department_list(request):
+    """
+    List all Appointments.
+    """
+    if request.method == 'GET':
+        departments = Department.objects.all()
+        serializer = DepartmentSerializer(departments, many=True)
         return Response(serializer.data)
