@@ -8,9 +8,9 @@ from hospital.serializer import MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .models import *
-from .serializers import AppointmentSerializer, DepartmentSerializer
+from .serializers import *
 
 
 # Create your views here.
@@ -54,6 +54,7 @@ def testEndPoint(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def appointments_list(request):
     """
     List all Appointments.
@@ -65,6 +66,7 @@ def appointments_list(request):
 
 
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def appointment_detail(request, pk):
     """
     Retrieve, update or delete a code snippet.
@@ -92,6 +94,7 @@ def appointment_detail(request, pk):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def department_list(request):
     """
     List all Appointments.
@@ -100,3 +103,23 @@ def department_list(request):
         departments = Department.objects.all()
         serializer = DepartmentSerializer(departments, many=True)
         return Response(serializer.data)
+
+@permission_classes([IsAdminUser, IsAuthenticated])
+class PatientList(generics.ListCreateAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+
+@permission_classes([IsAdminUser, IsAuthenticated])
+class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+
+@permission_classes([IsAdminUser, IsAuthenticated])
+class DoctorList(generics.ListCreateAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
+
+@permission_classes([IsAdminUser, IsAuthenticated])
+class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = DoctorSerializer
