@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from django.http import JsonResponse, HttpResponse
-from hospital.serializer import MyTokenObtainPairSerializer, RegisterSerializer
+from .serializer import *
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -25,13 +25,33 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
+class DoctorRegisterView(generics.CreateAPIView):
+    queryset = Doctor.objects.all()
+    permission_classes = (IsAuthenticated, IsAdminUser)
+    serializer_class = DoctorRegisterSerializer
+
+
+class PatientRegisterView(generics.CreateAPIView):
+    queryset = Patient.objects.all()
+    permission_classes = (IsAuthenticated, IsAdminUser)
+    serializer_class = PatientRegisterSerializer
+
 
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
         '/api/token/',
         '/api/register/',
-        '/api/token/refresh/'
+        '/api/token/refresh/',
+        '/api/admin/doctor/',
+        '/api/admin/patient/',
+        '/api/appointments/',
+        '/api/appointments/<int:pk>/',
+        '/api/departments/',
+        '/api/patients/',
+        '/api/patients/<int:pk>/',
+        '/api/doctors/',
+        '/api/doctors/<int:pk>/',
     ]
     return Response(routes)
 

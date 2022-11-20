@@ -14,15 +14,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token['username'] = user.username
         token['email'] = user.email
-        # doctor_users = Doctor.objects.filter(user=user)
-        # if len(doctor_users) > 0:
-        #     token['role'] = 'doctor'
-        # patients_users = Patient.objects.filter(user=user)
-        # if len(patients_users) > 0:
-        #     token['role'] = 'patient'
-        #
-        # if len(doctor_users) == 0 and len(patients_users) == 0:
-        #     token['role'] = 'not_found'
 
         return token
 
@@ -74,3 +65,94 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class DoctorRegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = Doctor
+        fields = '__all__'
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."})
+
+        return attrs
+
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+
+        department = Department.objects.create()
+        doctor = Doctor.objects.create(
+            user=user,
+            name=validated_data['name'],
+            surnam=validated_data['surname'],
+            middle_name=validated_data['middle_name'],
+            address=validated_data['address'],
+            phone_number=validated_data['contact_number'],
+            department=department,
+            date_of_birth=validated_data['date_of_birth'],
+            iin=validated_data['iin'],
+            experience=validated_data['experience'], #
+            category=validated_data['category'], #
+            price=validated_data['price'], #
+            schedule_details=validated_data['schedule_details'], #
+            degree=validated_data['degree'], #
+            rating=validated_data['rating'], #
+            homepage_url=validated_data['homepage_url'], #
+        )
+        doctor.save()
+
+        return doctor
+
+
+class PatientRegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = Patient
+        fields = '__all__'
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."})
+
+        return attrs
+
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+        patient = Patient.objects.create(
+            user=user,
+            name=validated_data['name'],
+            surnam=validated_data['surname'],
+            middle_name=validated_data['middle_name'],
+            address=validated_data['address'],
+            phone_number=validated_data['contact_number'],
+            date_of_birth=validated_data['date_of_birth'],
+            iin=validated_data['iin'],
+            blood_group=validated_data['blood_group'], #
+            emergency_phone_number=validated_data['caregiverPhone'],
+            email=validated_data['email'],
+            contact_details=validated_data['contact_details'], #
+            is_married=validated_data['is_married'], #
+        )
+        patient.save()
+
+        return patient
