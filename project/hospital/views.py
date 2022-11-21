@@ -73,16 +73,16 @@ def testEndPoint(request):
     return Response({}, status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def appointments_list(request):
-    """
-    List all Appointments.
-    """
-    if request.method == 'GET':
-        appointments = Appointment.objects.all()
-        serializer = AppointmentSerializer(appointments, many=True)
-        return Response(serializer.data)
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def appointments_list(request):
+#     """
+#     List all Appointments.
+#     """
+#     if request.method == 'GET':
+#         appointments = Appointment.objects.all()
+#         serializer = AppointmentSerializer(appointments, many=True)
+#         return Response(serializer.data)
 
 
 @csrf_exempt
@@ -143,3 +143,9 @@ class DoctorList(generics.ListCreateAPIView):
 class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
     serializer_class = DoctorSerializer
+
+
+@permission_classes([IsAuthenticated])
+class AppointmentList(generics.ListCreateAPIView):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer

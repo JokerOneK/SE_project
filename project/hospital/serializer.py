@@ -93,9 +93,9 @@ class DoctorRegisterSerializer(serializers.ModelSerializer):
 
         department = Department.objects.create()
         doctor = Doctor.objects.create(
-            user=user,
+            user=user.id,
             name=validated_data['name'],
-            surnam=validated_data['surname'],
+            surname=validated_data['surname'],
             middle_name=validated_data['middle_name'],
             address=validated_data['address'],
             phone_number=validated_data['contact_number'],
