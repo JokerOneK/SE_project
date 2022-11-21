@@ -114,7 +114,7 @@ def appointment_detail(request, pk):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def department_list(request):
     """
     List all Appointments.
@@ -134,7 +134,7 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
-@permission_classes([IsAdminUser, IsAuthenticated])
+@permission_classes([AllowAny])
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
