@@ -27,9 +27,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         doctor_users = Doctor.objects.filter(user=self.user)
         if len(doctor_users) > 0:
+            doc_id = Doctor.objects.get(user=self.user)
+            data['id'] = doc_id.id
             data['role'] = 'doctor'
         patients_users = Patient.objects.filter(user=self.user)
         if len(patients_users) > 0:
+            patient_id = Patient.objects.get(user=self.user)
+            data['id'] = patient_id.id
             data['role'] = 'patient'
 
         if self.user.is_superuser:
@@ -37,6 +41,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         if len(doctor_users) == 0 and len(patients_users) == 0 and not self.user.is_superuser:
             data['role'] = 'not_found'
+
+
 
         return data
 
