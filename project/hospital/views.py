@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse, HttpResponse
 from .serializer import *
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import generics
+from rest_framework import generics, permissions
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .models import *
@@ -14,6 +14,32 @@ from .serializers import *
 
 
 # Create your views here.
+
+class CustomUpdatePermission(permissions.BasePermission):
+    """
+    Permission class to check that a user can update his own resource only
+    """
+
+    # def has_permission(self, request, view):
+    #     # check that its an update request and user is modifying his resource only
+    #     if request.user.is_superuser:
+    #         return True
+    #     print(view)
+    #     if view.kwargs['id'] != request.user.id:
+    #         return False # not grant access
+    #
+    #     return True # grant access otherwise
+
+    def has_object_permission(self, request, view, obj):
+        # check that its an update request and user is modifying his resource only
+        if request.user.is_superuser:
+            return True
+        print(f'object = {obj.user}')
+        print(f'object.user.id = {obj.user.id}, request.user.id = {request.user.id}')
+        if obj.id != request.user.id:
+            return False # not grant access
+
+        return True # grant access otherwise
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -60,17 +86,17 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-def testEndPoint(request):
-    if request.method == 'GET':
-        data = f"Congratulation {request.user}, your API just responded to GET request"
-        return Response({'response': data}, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        text = request.POST.get('text')
-        data = f'Congratulation your API just responded to POST request with text: {text}'
-        return Response({'response': data}, status=status.HTTP_200_OK)
-    return Response({}, status.HTTP_400_BAD_REQUEST)
+# @api_view(['GET', 'POST'])
+# @permission_classes([IsAuthenticated])
+# def testEndPoint(request):
+#     if request.method == 'GET':
+#         data = f"Congratulation {request.user}, your API just responded to GET request"
+#         return Response({'response': data}, status=status.HTTP_200_OK)
+#     elif request.method == 'POST':
+#         text = request.POST.get('text')
+#         data = f'Congratulation your API just responded to POST request with text: {text}'
+#         return Response({'response': data}, status=status.HTTP_200_OK)
+#     return Response({}, status.HTTP_400_BAD_REQUEST)
 
 
 # @api_view(['GET'])
@@ -124,6 +150,8 @@ def department_list(request):
         serializer = DepartmentSerializer(departments, many=True)
         return Response(serializer.data)
 
+
+## PATIENTS
 @permission_classes([IsAdminUser, IsAuthenticated])
 class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
@@ -136,11 +164,17 @@ class PatientDetail(generics.RetrieveAPIView):
     serializer_class = PatientSerializer
 
 
-@permission_classes([IsAdminUser, IsAuthenticated])
-class PatientUpdate(generics.RetrieveUpdateDestroyAPIView):
+@permission_classes([CustomUpdatePermission, IsAuthenticated])
+class PatientUpdate(generics.RetrieveUpdateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
+@permission_classes([IsAdminUser, IsAuthenticated])
+class PatientUpdateAdmin(generics.RetrieveUpdateAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+
+## DOCTORS
 @permission_classes([AllowAny])
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
@@ -151,9 +185,14 @@ class DoctorDetail(generics.RetrieveAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
+@permission_classes([IsAuthenticated, CustomUpdatePermission])
+class DoctorUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
+
 @permission_classes([IsAuthenticated, IsAdminUser])
-class DoctorUpdate(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Patient.objects.all()
+class DoctorUpdateAdmin(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
 
