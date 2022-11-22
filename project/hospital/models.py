@@ -1,12 +1,20 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-default = [('Cardiologist','Cardiologist'),
-           ('Dermatologists','Dermatologists'),
-           ('Emergency Medicine Specialists','Emergency Medicine Specialists'),
-           ('Allergists/Immunologists','Allergists/Immunologists'),
-           ('Anesthesiologists','Anesthesiologists'),
-           ('Colon and Rectal Surgeons','Colon and Rectal Surgeons')
+default = [('Medicine','Medicine'),
+           ('Surgery','Surgery'),
+           ('Gynecology','Gynecology'),
+           ('Obstetrics','Obstetrics'),
+           ('Pediatrics','Pediatrics'),
+           ('Radiology','Radiology'),
+           ('Eye','Eye'),
+           ('ENT','ENT'),
+           ('Dental','Dental'),
+           ('Orthopedics','Orthopedics'),
+           ('Neurology','Neurology'),
+           ('Cardiology','Cardiology'),
+           ('Psychiatry','Psychiatry'),
+           ('Scin','Scin'),
            ]
 
 default_categories = [('Highest', 'Highest'), ('First', 'First'), ('Second', 'Second')]
