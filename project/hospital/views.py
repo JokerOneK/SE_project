@@ -146,6 +146,24 @@ class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 @permission_classes([IsAuthenticated])
-class AppointmentList(generics.ListCreateAPIView):
+class AppointmentList(generics.ListAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+
+
+@permission_classes([IsAuthenticated, IsAdminUser])
+class AppointmentList(generics.CreateAPIView):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def doctor_appointments_list(request):
+    """
+    List booked appointments for particular doctor.
+    """
+    if request.method == 'GET':
+        appointments = Appointment.objects.filter(doctor__name=request.data["name"])
+        serializer = AppointmentSerializer(appointments, many=True)
+        return Response(serializer.data)
