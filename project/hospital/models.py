@@ -34,7 +34,7 @@ class Doctor(models.Model):
     middle_name = models.CharField(max_length=20)
     address = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=13)
-    department = models.ForeignKey('Department', on_delete=models.CASCADE)
+    department = models.ForeignKey('Department', on_delete=models.CASCADE, related_name='doctors')
     date_of_birth = models.DateField()
     iin = models.CharField(max_length=12)
     experience = models.IntegerField()

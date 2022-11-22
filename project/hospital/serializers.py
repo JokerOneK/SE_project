@@ -9,13 +9,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class DepartmentSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Department
-        fields = '__all__'
-
-
 class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -27,3 +20,11 @@ class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = '__all__'
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    doctors = DoctorSerializer(many=True)
+
+    class Meta:
+        model = Department
+        fields = ('id', 'name', 'doctors')
