@@ -139,8 +139,13 @@ class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
-@permission_classes([IsAdminUser, IsAuthenticated])
-class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
+@permission_classes([IsAuthenticated])
+class DoctorDetail(generics.RetrieveAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = DoctorSerializer
+
+@permission_classes([IsAuthenticated, IsAdminUser])
+class DoctorUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
     serializer_class = DoctorSerializer
 
