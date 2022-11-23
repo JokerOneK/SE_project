@@ -1,10 +1,12 @@
 from rest_framework import generics
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
 
 from hospital.models import *
-from hospital.serializers import PatientSerializer
+from hospital.serializers import PatientSerializer, AppointmentSerializer
 from hospital.views.views import CustomUpdatePermission
+
 
 
 
@@ -29,3 +31,16 @@ class PatientUpdate(generics.RetrieveUpdateAPIView):
 class PatientUpdateAdmin(generics.RetrieveUpdateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def patients_appointments_list(request):
+    """
+    List booked appointments for particular doctor.
+    """
+    if request.method == 'GET':
+        print(request.data)
+        appointments = Appointment.objects.filter(patient__user__username=request.data["username"])
+        serializer = AppointmentSerializer(appointments, many=True)
+        return Response(serializer.data)

@@ -149,14 +149,6 @@ class AppointmentList(generics.CreateAPIView):
     serializer_class = AppointmentSerializer
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def doctor_appointments_list(request):
-    """
-    List booked appointments for particular doctor.
-    """
-    if request.method == 'GET':
-        print(request.data)
-        appointments = Appointment.objects.filter(doctor__user__username=request.data["username"])
-        serializer = AppointmentSerializer(appointments, many=True)
-        return Response(serializer.data)
+
+
+
