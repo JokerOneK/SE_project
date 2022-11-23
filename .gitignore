@@ -1,2 +1,6 @@
 /venv/
 /frontend/node_modules/
+/project/.idea/
+/project/Scripts/
+/project/Include/
+/project/Lib/

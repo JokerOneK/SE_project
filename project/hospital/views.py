@@ -78,6 +78,8 @@ def getRoutes(request):
         '/api/patients/<int:pk>/',
         '/api/doctors/',
         '/api/doctors/<int:pk>/',
+        '/api/services/',
+        '/api/services/<int:pk>/',
     ]
     return Response(routes)
 
@@ -206,6 +208,17 @@ class AppointmentList(generics.ListAPIView):
 class AppointmentList(generics.CreateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+
+# SERVICES
+@permission_classes([AllowAny])
+class ServicesList(generics.ListCreateAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServicesSerializer
+
+@permission_classes([IsAuthenticated])
+class ServicesDetail(generics.RetrieveAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServicesSerializer
 
 
 @api_view(['GET'])

@@ -24,4 +24,6 @@ urlpatterns = [
     path('doctors/update/<int:pk>/', views.DoctorUpdate.as_view()),
     path('doctors/admin/update/<int:pk>/', views.DoctorUpdateAdmin.as_view()),
     path('appointments/doctor/', views.doctor_appointments_list),
+    path('services/', views.ServicesList.as_view()),
+    path('services/<int:pk>/', views.ServicesDetail.as_view()),
 ]
