@@ -6,11 +6,12 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
+    path('', views.getRoutes),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('admin/doctor/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),
-    path('', views.getRoutes),
+    path('appointments_create/', views.AppointmentCreate.as_view()),
     path('appointments_doctor/', doctor_views.doctor_appointments_list),
     path('appointments_patient/', patient_views.patients_appointments_list),
     path('appointments/<int:pk>/', views.appointment_detail),
@@ -24,3 +25,11 @@ urlpatterns = [
     path('doctors/update/<int:pk>/', doctor_views.DoctorUpdate.as_view()),
     path('doctors/admin/update/<int:pk>/', doctor_views.DoctorUpdateAdmin.as_view()),
 ]
+
+# appointments_create:
+#
+# in body:
+# date,
+# timeslot,
+# doctor id,
+# patient id

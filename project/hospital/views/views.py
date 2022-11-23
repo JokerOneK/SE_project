@@ -144,7 +144,7 @@ class AppointmentList(generics.ListAPIView):
 
 
 @permission_classes([IsAuthenticated, IsAdminUser])
-class AppointmentList(generics.CreateAPIView):
+class AppointmentCreate(generics.CreateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
 
