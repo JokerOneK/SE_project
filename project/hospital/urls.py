@@ -10,20 +10,28 @@ urlpatterns = [
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
-    path('admin/doctor/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),
+    path('admin/doctor/<int:pk>/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),
+    # Appointments
     path('appointments_create/', views.AppointmentCreate.as_view()),
     path('appointments_doctor/', doctor_views.doctor_appointments_list),
     path('appointments_patient/', patient_views.patients_appointments_list),
     path('appointments/<int:pk>/', views.appointment_detail),
+
+    # Departments
     path('departments/', views.department_list),
+    path('departments/<slug:slug>/', views.DepartmentDetail.as_view()),
+
+    # Patients
     path('patients/', patient_views.PatientList.as_view()),
-    path('patients/<int:pk>/', patient_views.PatientDetail.as_view()),
-    path('patients/update/<int:pk>/', patient_views.PatientUpdate.as_view()),
-    path('patients/admin/update/<int:pk>/', patient_views.PatientUpdateAdmin.as_view()),
+    path('patients/<slug:slug>/', patient_views.PatientDetail.as_view()),
+    path('patients/update/<slug:slug>/', patient_views.PatientUpdate.as_view()),
+    path('patients/admin/update/<slug:slug>/', patient_views.PatientUpdateAdmin.as_view()),
+
+    #Doctors
     path('doctors/', doctor_views.DoctorList.as_view()),
-    path('doctors/<int:pk>/', doctor_views.DoctorDetail.as_view()),
-    path('doctors/update/<int:pk>/', doctor_views.DoctorUpdate.as_view()),
-    path('doctors/admin/update/<int:pk>/', doctor_views.DoctorUpdateAdmin.as_view()),
+    path('doctors/<slug:slug>/', doctor_views.DoctorDetail.as_view()),
+    path('doctors/update/<slug:slug>/', doctor_views.DoctorUpdate.as_view()),
+    path('doctors/admin/update/<slug:slug>/', doctor_views.DoctorUpdateAdmin.as_view()),
 ]
 
 # appointments_create:

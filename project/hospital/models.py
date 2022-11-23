@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from autoslug import AutoSlugField
 
 default = [('Medicine','Medicine'),
            ('Surgery','Surgery'),
@@ -22,6 +23,7 @@ default_degree = [('PhD', 'PhD'), ('MD', 'MD'), ('Bachelor', 'Bachelor')]
 
 class Department(models.Model):
     name = models.CharField(max_length=50, choices=default, default='Dermatologists')
+    slug = AutoSlugField(populate_from='name')
 
     def __str__(self):
         return self.name
@@ -45,6 +47,11 @@ class Doctor(models.Model):
     degree = models.CharField(max_length=15, choices=default_degree, default='Bachelor')
     rating = models.PositiveIntegerField()
     homepage_url = models.CharField(max_length=200, null=True)
+    slug = AutoSlugField(populate_from='doctor_username')
+
+    @property
+    def doctor_username(self):
+        return self.user.username
 
     def __str__(self):
         return f"{self.name}, {self.surname}"
@@ -64,6 +71,11 @@ class Patient(models.Model):
     email = models.EmailField(blank=True)
     contact_details = models.CharField(max_length=200)
     is_married = models.BooleanField(default=False)
+    slug = AutoSlugField(populate_from='patient_username')
+
+    @property
+    def patient_username(self):
+        return self.user.username
 
     def __str__(self):
         return f"{self.name}, {self.surname}"

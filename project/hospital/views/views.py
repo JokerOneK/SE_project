@@ -108,6 +108,13 @@ def department_list(request):
         return Response(serializer.data)
 
 
+@permission_classes([ IsAuthenticated])
+class DepartmentDetail(generics.RetrieveAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    lookup_field = "slug"
+
+
 
 
 

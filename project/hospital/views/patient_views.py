@@ -20,17 +20,20 @@ class PatientList(generics.ListCreateAPIView):
 class PatientDetail(generics.RetrieveAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    lookup_field = "slug"
 
 
 @permission_classes([CustomUpdatePermission, IsAuthenticated])
 class PatientUpdate(generics.RetrieveUpdateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    lookup_field = "slug"
 
 @permission_classes([IsAdminUser, IsAuthenticated])
 class PatientUpdateAdmin(generics.RetrieveUpdateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    lookup_field = "slug"
 
 
 @api_view(['GET'])

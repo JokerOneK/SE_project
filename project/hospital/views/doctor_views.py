@@ -18,16 +18,19 @@ class DoctorList(generics.ListCreateAPIView):
 class DoctorDetail(generics.RetrieveAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    lookup_field = "slug"
 
 @permission_classes([IsAuthenticated, CustomUpdatePermission])
 class DoctorUpdate(generics.RetrieveUpdateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    lookup_field = "slug"
 
 @permission_classes([IsAuthenticated, IsAdminUser])
 class DoctorUpdateAdmin(generics.RetrieveUpdateDestroyAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    lookup_field = "slug"
 
 
 @api_view(['GET'])
@@ -37,7 +40,7 @@ def doctor_appointments_list(request):
     List booked appointments for particular doctor.
     """
     if request.method == 'GET':
-        print(request.data)
-        appointments = Appointment.objects.filter(doctor__user__username=request.data["username"])
+        print(request.query_params)
+        appointments = Appointment.objects.filter(doctor__user__username=request.query_params["username"])
         serializer = AppointmentSerializer(appointments, many=True)
         return Response(serializer.data)
