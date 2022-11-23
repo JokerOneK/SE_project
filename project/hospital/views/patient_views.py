@@ -40,7 +40,7 @@ def patients_appointments_list(request):
     List booked appointments for particular doctor.
     """
     if request.method == 'GET':
-        print(request.data)
-        appointments = Appointment.objects.filter(patient__user__username=request.data["username"])
+        print(request.query_params)
+        appointments = Appointment.objects.filter(patient__user__username=request.query_params["username"])
         serializer = AppointmentSerializer(appointments, many=True)
         return Response(serializer.data)
