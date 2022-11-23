@@ -18,6 +18,39 @@ default = [('Medicine','Medicine'),
            ('Scin','Scin'),
            ]
 
+default_services = [
+    {
+        'Surgery' : ['Laparoscopic procedures', 'Bed, free food, investigations', 'Robotic Surgeries', 'Endoscopic procedures']
+    },
+    {
+        'Obstetrics' : ['Pregnancy care', 'Surgical procedures', 'Specialty care', 'Prenatal yoga classes']
+    },
+    {
+        'Pediatrics' : ['Pediatricians', 'Pediatric neurologist', 'Pediatric ophthalmologist', 'Ultrasound doctor']
+    },
+    {
+        'Radiology' : ['X-ray', 'Ultrasound', 'Computed tomography', 'Magnetic resonance imaging']
+    },
+    {
+        'Eye' : ['Visual field test', 'Laser treatment for specific eye problems', 'Cataract', 'General ophthalmology']
+    },
+    {
+        'ENT' : ['Foreign body removal', 'Endoscopic surgeries for nose', 'Biopsies of suspicious mass', 'Diagnostic endoscopic examination']
+    },
+    {
+        'Dental' : ['Cosmetic dentistry', 'Dental cleanings', 'Orthodontics', 'Implants']
+    },
+    {
+        'Orthopedics' : ['Bone scans', 'Computed tomography', 'Arthrogram', 'Discography']
+    },
+    {
+        'Neurology' : ['Electrophysiological investigations', 'Epilepsy surgery', 'Botulinum Toxin', 'Stroke thrombolysis']
+    },
+    {
+        'Cardiology' : ['Implantable cardiac devices', 'Cardioverter defibrillators', 'Ventricular assist devices', 'Catheter ablation']
+    }
+]
+
 default_categories = [('Highest', 'Highest'), ('First', 'First'), ('Second', 'Second')]
 default_degree = [('PhD', 'PhD'), ('MD', 'MD'), ('Bachelor', 'Bachelor')]
 

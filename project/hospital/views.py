@@ -80,6 +80,7 @@ def getRoutes(request):
         '/api/doctors/<int:pk>/',
         '/api/services/',
         '/api/services/<int:pk>/',
+        '/'
     ]
     return Response(routes)
 
