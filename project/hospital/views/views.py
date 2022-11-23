@@ -157,6 +157,6 @@ def doctor_appointments_list(request):
     """
     if request.method == 'GET':
         print(request.data)
-        appointments = Appointment.objects.filter(doctor__name=request.data["name"])
+        appointments = Appointment.objects.filter(doctor__user__username=request.data["username"])
         serializer = AppointmentSerializer(appointments, many=True)
         return Response(serializer.data)
