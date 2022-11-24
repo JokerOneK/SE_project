@@ -15,6 +15,7 @@ urlpatterns = [
     # Appointments
     path('appointments_create/', views.AppointmentCreate.as_view()),
     path('appointments_doctor/', doctor_views.doctor_appointments_list),
+    path('appointments_doctor_free/', views.FreeAppointmentList.as_view()),
     path('appointments_patient/', patient_views.patients_appointments_list),
     path('appointments/<int:pk>/', views.appointment_detail),
 

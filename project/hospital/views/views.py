@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from django.http import JsonResponse, HttpResponse
@@ -118,9 +119,21 @@ class DepartmentDetail(generics.RetrieveAPIView):
 
 
 
+@permission_classes([AllowAny])
+class FreeAppointmentList(APIView):
+    def get(self, request):
+        doctor = self.request.query_params["username"]
+        date = self.request.query_params["date"]
+        queryset = Appointment.objects.filter(doctor__user__username=doctor, date=date)
 
+        free_timeslots = [j for j in range(9)]
 
-@permission_classes([IsAuthenticated])
+        for i in queryset:
+            if i.timeslot in free_timeslots:
+                free_timeslots.remove(i.timeslot)
+        return Response(free_timeslots)
+
+@permission_classes([AllowAny])
 class AppointmentList(generics.ListAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer

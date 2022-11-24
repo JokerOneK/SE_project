@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.db import models
 from autoslug import AutoSlugField
 
@@ -111,4 +112,13 @@ class Appointment(models.Model):
     def time(self):
         return self.TIMESLOT_LIST[self.timeslot][1]
 
-# Create your models here.
+
+class Services(models.Model):
+    name = models.CharField(max_length=20)
+    price = models.PositiveIntegerField(validators=[MaxValueValidator(10000000000)])
+    department = models.ForeignKey('Department', on_delete=models.CASCADE, related_name='services')
+    contradictions = models.CharField(max_length=200)
+    pre_procedure = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
