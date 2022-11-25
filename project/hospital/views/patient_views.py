@@ -10,7 +10,7 @@ from hospital.views.views import CustomUpdatePermission
 
 
 
-@permission_classes([IsAdminUser, IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
