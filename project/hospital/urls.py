@@ -34,6 +34,10 @@ urlpatterns = [
     path('doctors/<slug:slug>/', doctor_views.DoctorDetail.as_view()),
     path('doctors/update/<slug:slug>/', doctor_views.DoctorUpdate.as_view()),
     path('doctors/admin/update/<slug:slug>/', doctor_views.DoctorUpdateAdmin.as_view()),
+
+    #Services
+    path('services/', views.ServicesList.as_view()),
+    path('services/<int:pk>/', views.ServicesDetail.as_view()),
 ]
 
 # appointments_create:

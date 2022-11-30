@@ -19,6 +19,88 @@ default = [('Medicine','Medicine'),
            ('Scin','Scin'),
            ]
 
+default_services = (
+    (
+        ('Surgery', (
+            ('Laparoscopic procedures', 'Laparoscopic procedures'),
+            ('Bed, free food, investigations', 'Bed, free food, investigations'),
+            ('Robotic Surgeries', 'Robotic Surgeries'),
+            ('Endoscopic procedures', 'Endoscopic procedures'),
+        ))
+    ),
+    (
+        ('Obstetrics' , (
+            ('Pregnancy care', 'Pregnancy care'),
+            ('Surgical procedures', 'Surgical procedures'),
+            ('Specialty care', 'Specialty care'),
+            ('Prenatal yoga classes','Prenatal yoga classes')
+        ))
+    ),
+    (
+        ('Pediatrics' , (
+            ('Pediatricians', 'Pediatricians'),
+            ('Pediatric neurologist', 'Pediatric neurologist'),
+            ('Pediatric ophthalmologist', 'Pediatric ophthalmologist'),
+            ('Ultrasound doctor', 'Ultrasound doctor')
+        ))
+    ),
+    (
+        ('Radiology' , (
+            ('X-ray', 'X-ray'),
+            ('Ultrasound', 'Ultrasound'),
+            ('Computed tomography', 'Computed tomography'),
+            ('Magnetic resonance imaging','Magnetic resonance imaging')
+        ))
+    ),
+    (
+        ('Eye', (
+            ('Visual field test', 'Visual field test'),
+            ('Laser treatment for specific eye problems', 'Laser treatment for specific eye problems'),
+            ('Cataract', 'Cataract'),
+            ('General ophthalmology', 'General ophthalmology')
+        ))
+    ),
+    (
+        ('ENT' , (
+            ('Foreign body removal', 'Foreign body removal'),
+            ('Endoscopic surgeries for nose',  'Endoscopic surgeries for nose'),
+            ('Biopsies of suspicious mass', 'Biopsies of suspicious mass'),
+            ('Diagnostic endoscopic examination', 'Diagnostic endoscopic examination')
+        ))
+    ),
+    (
+        ('Dental' , (
+            ('Cosmetic dentistry', 'Cosmetic dentistry'),
+            ('Dental cleanings', 'Dental cleanings'),
+            ('Orthodontics',  'Orthodontics'),
+            ('Implants', 'Implants')
+        ))
+    ),
+    (
+        ('Orthopedics' , (
+            ('Bone scans', 'Bone scans'),
+            ('Computed tomography',  'Computed tomography'),
+            ('Arthrogram',  'Arthrogram'),
+            ('Discography', 'Discography')
+        ))
+    ),
+    (
+        ('Neurology' , (
+            ('Electrophysiological investigations', 'Electrophysiological investigations'),
+            ('Epilepsy surgery', 'Epilepsy surgery'),
+            ('Botulinum Toxin', 'Botulinum Toxin'),
+            ('Stroke thrombolysis', 'Stroke thrombolysis')
+        ))
+    ),
+    (
+        ('Cardiology', (
+            ('Implantable cardiac devices', 'Implantable cardiac devices'),
+            ('Cardioverter defibrillators',  'Cardioverter defibrillators'),
+            ('Ventricular assist devices', 'Ventricular assist devices'),
+            ('Catheter ablation', 'Catheter ablation')
+        ))
+    )
+)
 default_categories = [('Highest', 'Highest'), ('First', 'First'), ('Second', 'Second')]
 default_degree = [('PhD', 'PhD'), ('MD', 'MD'), ('Bachelor', 'Bachelor')]
 
@@ -113,8 +195,8 @@ class Appointment(models.Model):
         return self.TIMESLOT_LIST[self.timeslot][1]
 
 
-class Services(models.Model):
-    name = models.CharField(max_length=20)
+class Service(models.Model):
+    name = models.CharField(max_length=200, choices=default_services, default="X-ray")
     price = models.PositiveIntegerField(validators=[MaxValueValidator(10000000000)])
     department = models.ForeignKey('Department', on_delete=models.CASCADE, related_name='services')
     contradictions = models.CharField(max_length=200)

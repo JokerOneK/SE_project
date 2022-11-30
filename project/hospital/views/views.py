@@ -145,6 +145,16 @@ class AppointmentCreate(generics.CreateAPIView):
     serializer_class = AppointmentSerializer
 
 
+# SERVICES
+@permission_classes([AllowAny])
+class ServicesList(generics.ListAPIView):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+
+@permission_classes([AllowAny])
+class ServicesDetail(generics.RetrieveAPIView):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
 
 
 

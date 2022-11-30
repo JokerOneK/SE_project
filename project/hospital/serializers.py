@@ -28,3 +28,10 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ('id', 'name', 'doctors', 'slug')
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Service
+        fields = '__all__'
