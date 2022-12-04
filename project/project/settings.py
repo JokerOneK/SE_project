@@ -168,3 +168,7 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 DATETIME_INPUT_FORMATS = ['%m/%d/%y %H']
+
+
+MEDIA_ROOT = ''
+MEDIA_URL = '/images/'

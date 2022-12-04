@@ -123,7 +123,7 @@ class Doctor(models.Model):
     date_of_birth = models.DateField()
     iin = models.CharField(max_length=12)
     experience = models.IntegerField()
-    photo = models.ImageField(blank=True)
+    photo = models.ImageField(blank=True, upload_to="images/")
     category = models.CharField(max_length=50, choices=default_categories, default='First')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     schedule_details = models.CharField(max_length=200)
