@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
+# import channels
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'pd&jp8s&8#s#=)aig1i+y3^d2&dr2t8!9vyel4_%_tk*htwwqk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +42,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'channels',
+
     'hospital',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -172,3 +176,11 @@ DATETIME_INPUT_FORMATS = ['%m/%d/%y %H']
 
 MEDIA_ROOT = ''
 MEDIA_URL = '/images/'
+
+
+ASGI_APPLICATION = "chat.routing.application" #routing.py will handle the ASGI
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    }
+}
