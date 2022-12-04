@@ -199,6 +199,7 @@ class Service(models.Model):
     name = models.CharField(max_length=200, choices=default_services, default="X-ray")
     price = models.PositiveIntegerField(validators=[MaxValueValidator(10000000000)])
     department = models.ForeignKey('Department', on_delete=models.CASCADE, related_name='services')
+    doctor = models.ManyToManyField(Doctor)
     contradictions = models.CharField(max_length=200)
     pre_procedure = models.CharField(max_length=50)
 
