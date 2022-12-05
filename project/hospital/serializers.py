@@ -22,16 +22,20 @@ class DoctorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class DepartmentSerializer(serializers.ModelSerializer):
-    doctors = DoctorSerializer(many=True)
-
-    class Meta:
-        model = Department
-        fields = ('id', 'name', 'doctors', 'slug')
-
-
 class ServiceSerializer(serializers.ModelSerializer):
+    doctor = DoctorSerializer(many=True)
 
     class Meta:
         model = Service
         fields = '__all__'
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    doctors = DoctorSerializer(many=True)
+    services = ServiceSerializer(many=True)
+
+    class Meta:
+        model = Department
+        fields = ('id', 'name', 'doctors', 'slug', 'services')
+
+

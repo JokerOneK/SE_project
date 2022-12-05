@@ -22,82 +22,82 @@ default = [('Medicine','Medicine'),
 default_services = (
     (
         ('Surgery', (
-            ('Laparoscopic procedures', 'Laparoscopic procedures'),
-            ('Bed, free food, investigations', 'Bed, free food, investigations'),
-            ('Robotic Surgeries', 'Robotic Surgeries'),
-            ('Endoscopic procedures', 'Endoscopic procedures'),
+            ('Laparoscopic_procedures', 'Laparoscopic procedures'),
+            ('Bed_free_food_investigations', 'Bed, free food, investigations'),
+            ('Robotic_Surgeries', 'Robotic Surgeries'),
+            ('Endoscopic_procedures', 'Endoscopic procedures'),
         ))
     ),
     (
         ('Obstetrics' , (
-            ('Pregnancy care', 'Pregnancy care'),
-            ('Surgical procedures', 'Surgical procedures'),
-            ('Specialty care', 'Specialty care'),
-            ('Prenatal yoga classes','Prenatal yoga classes')
+            ('Pregnancy_care', 'Pregnancy care'),
+            ('Surgical_procedures', 'Surgical procedures'),
+            ('Specialty_care', 'Specialty care'),
+            ('Prenatal_yoga_classes','Prenatal yoga classes')
         ))
     ),
     (
         ('Pediatrics' , (
             ('Pediatricians', 'Pediatricians'),
-            ('Pediatric neurologist', 'Pediatric neurologist'),
-            ('Pediatric ophthalmologist', 'Pediatric ophthalmologist'),
-            ('Ultrasound doctor', 'Ultrasound doctor')
+            ('Pediatric_neurologist', 'Pediatric neurologist'),
+            ('Pediatric_ophthalmologist', 'Pediatric ophthalmologist'),
+            ('Ultrasound_doctor', 'Ultrasound doctor')
         ))
     ),
     (
         ('Radiology' , (
-            ('X-ray', 'X-ray'),
+            ('X_ray', 'X-ray'),
             ('Ultrasound', 'Ultrasound'),
-            ('Computed tomography', 'Computed tomography'),
-            ('Magnetic resonance imaging','Magnetic resonance imaging')
+            ('Computed_tomography', 'Computed tomography'),
+            ('Magnetic_resonance_imaging','Magnetic resonance imaging')
         ))
     ),
     (
         ('Eye', (
-            ('Visual field test', 'Visual field test'),
-            ('Laser treatment for specific eye problems', 'Laser treatment for specific eye problems'),
+            ('Visual_field_test', 'Visual field test'),
+            ('Laser_treatment_for_specific_eye_problems', 'Laser treatment for specific eye problems'),
             ('Cataract', 'Cataract'),
-            ('General ophthalmology', 'General ophthalmology')
+            ('General_ophthalmology', 'General ophthalmology')
         ))
     ),
     (
         ('ENT' , (
-            ('Foreign body removal', 'Foreign body removal'),
-            ('Endoscopic surgeries for nose',  'Endoscopic surgeries for nose'),
-            ('Biopsies of suspicious mass', 'Biopsies of suspicious mass'),
-            ('Diagnostic endoscopic examination', 'Diagnostic endoscopic examination')
+            ('Foreign_body_removal', 'Foreign body removal'),
+            ('Endoscopic_surgeries_for_nose',  'Endoscopic surgeries for nose'),
+            ('Biopsies_of_suspicious_mass', 'Biopsies of suspicious mass'),
+            ('Diagnostic_endoscopic_examination', 'Diagnostic endoscopic examination')
         ))
     ),
     (
         ('Dental' , (
-            ('Cosmetic dentistry', 'Cosmetic dentistry'),
-            ('Dental cleanings', 'Dental cleanings'),
+            ('Cosmetic_dentistry', 'Cosmetic dentistry'),
+            ('Dental_cleanings', 'Dental cleanings'),
             ('Orthodontics',  'Orthodontics'),
             ('Implants', 'Implants')
         ))
     ),
     (
         ('Orthopedics' , (
-            ('Bone scans', 'Bone scans'),
-            ('Computed tomography',  'Computed tomography'),
+            ('Bone_scans', 'Bone scans'),
+            ('Computed_tomography',  'Computed tomography'),
             ('Arthrogram',  'Arthrogram'),
             ('Discography', 'Discography')
         ))
     ),
     (
         ('Neurology' , (
-            ('Electrophysiological investigations', 'Electrophysiological investigations'),
-            ('Epilepsy surgery', 'Epilepsy surgery'),
-            ('Botulinum Toxin', 'Botulinum Toxin'),
-            ('Stroke thrombolysis', 'Stroke thrombolysis')
+            ('Electrophysiological_investigations', 'Electrophysiological investigations'),
+            ('Epilepsy_surgery', 'Epilepsy surgery'),
+            ('Botulinum_Toxin', 'Botulinum Toxin'),
+            ('Strokevthrombolysis', 'Stroke thrombolysis')
         ))
     ),
     (
         ('Cardiology', (
-            ('Implantable cardiac devices', 'Implantable cardiac devices'),
-            ('Cardioverter defibrillators',  'Cardioverter defibrillators'),
-            ('Ventricular assist devices', 'Ventricular assist devices'),
-            ('Catheter ablation', 'Catheter ablation')
+            ('Implantable_cardiac_devices', 'Implantable cardiac devices'),
+            ('Cardioverter_defibrillators',  'Cardioverter defibrillators'),
+            ('Ventricular_assist devices', 'Ventricular assist devices'),
+            ('Catheter_ablation', 'Catheter ablation')
         ))
     )
 )
@@ -202,6 +202,7 @@ class Service(models.Model):
     doctor = models.ManyToManyField(Doctor)
     contradictions = models.CharField(max_length=200)
     pre_procedure = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from='name')
 
     def __str__(self):
         return self.name

@@ -37,7 +37,7 @@ urlpatterns = [
 
     #Services
     path('services/', views.ServicesList.as_view()),
-    path('services/<int:pk>/', views.ServicesDetail.as_view()),
+    path('services/<slug:slug>/', views.ServicesDetail.as_view()),
 ]
 
 # appointments_create:
