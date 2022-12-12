@@ -10,7 +10,7 @@ urlpatterns = [
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('token/refresh/23', TokenRefreshView.as_view(), name='token_refresh'),1 2 3
     path('register/', views.RegisterView.as_view(), name='auth_register'), # 4
-    path('admin/doctor/<slug:slug>/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),
+    path('admin/doctor/<slug:slug>/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),  # 12 3
 
     # Appointments
     path('appointments_create/', views.AppointmentCreate.as_view()),
