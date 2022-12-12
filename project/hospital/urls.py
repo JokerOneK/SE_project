@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.getRoutes),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('token/refresh/23', TokenRefreshView.as_view(), name='token_refresh'),1 2 3
-    path('register/', views.RegisterView.as_view(), name='auth_register'),
+    path('register/', views.RegisterView.as_view(), name='auth_register'), # 4
     path('admin/doctor/<slug:slug>/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),
 
     # Appointments
