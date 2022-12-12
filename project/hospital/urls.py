@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('', views.getRoutes),
-    path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'), # 1 2 3
     # path('token/refresh/23', TokenRefreshView.as_view(), name='token_refresh'),1 2 3 4 5
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('admin/doctor/<slug:slug>/', doctor_views.DoctorUpdateAdmin.as_view(), name='doctor_register'),
